@@ -1,13 +1,10 @@
 import { ActionTypes } from "../constant/ActionTypes";
 
 const initialState = {
-  contacts: [],
+  contacts: {},
 };
 
 export const addContactReducer = (state = initialState, { type, payload }) => {
-  console.log("In reducer");
-  console.log(payload);
-  console.log("TYPE: ", type);
   switch (type) {
     case ActionTypes.ADD_CONTACT:
       return { ...state, contacts: payload };

@@ -9,35 +9,60 @@ class ContactForm extends React.Component {
     super(props);
     this.state = {
       isFormSubmit: false,
-      contacts: {},
     };
   }
-  componentDidMount = () => {
-    const { dispatch } = this.props;
-    dispatch(addContact({ name: "nagesh" }));
-  };
   submitFormHandler = (values) => {
-    // dispatch(addContact(values));
-    // console.log("submitFormHandler: ", values);
     this.state.isFormSubmit = true;
     const { dispatch } = this.props;
-
-    dispatch(addContact({ name: "nagesh" }));
+    dispatch(addContact(values));
   };
   render() {
     const { handleSubmit } = this.props;
-    // const dispatch = useDispatch();
     return (
       <div>
-        <h2>Demo</h2>
+        <form onSubmit={handleSubmit(this.submitFormHandler)}>
+          <label>Name</label>
+          <Field
+            name="name"
+            component="input"
+            type="text"
+            placeholder="Enter Name"
+          />
+          <br />
+          <label>Email</label>
+          <Field
+            name="email"
+            component="input"
+            type="email"
+            placeholder="Enter Email"
+          />
+          <br />
+          <label>Mobile Number</label>
+          <Field
+            name="mobileNumber"
+            component="input"
+            type="number"
+            placeholder="Enter Mobile Number"
+          />
+          <br />
+          <button type="submit">Add Contact</button>
+          {this.state.isFormSubmit ? <ContactDetails /> : null}
+        </form>
       </div>
     );
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    allContacts: state.allContact.connects,
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return { dispatch };
 };
 
-export default // reduxForm({ form: "contactForm" })
-connect(mapDispatchToProps)(ContactForm);
+export default reduxForm({ form: "contactForm" })(
+  connect(mapStateToProps, mapDispatchToProps)(ContactForm)
+);
