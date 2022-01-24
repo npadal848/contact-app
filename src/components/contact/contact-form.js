@@ -53,16 +53,17 @@ class ContactForm extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    allContacts: state.allContact.connects,
-  };
-};
+// const mapStateToProps = (state) => {
+//   return {
+//     allContacts: state.allContact.connects,
+//   };
+// };
 
-const mapDispatchToProps = (dispatch) => {
-  return { dispatch };
-};
+// const mapDispatchToProps = (dispatch) => {
+//   return { dispatch };
+// };
 
 export default reduxForm({ form: "contactForm" })(
-  connect(mapStateToProps, mapDispatchToProps)(ContactForm)
+  // connect(mapStateToProps, mapDispatchToProps)
+  ContactForm
 );

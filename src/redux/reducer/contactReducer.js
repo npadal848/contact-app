@@ -1,13 +1,17 @@
 import { ActionTypes } from "../constant/ActionTypes";
 
 const initialState = {
-  contacts: {},
+  contacts: [],
+  emailData: [],
 };
 
 export const addContactReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case ActionTypes.ADD_CONTACT:
-      return { ...state, contacts: payload };
+      return {
+        ...state,
+        contacts: [...state.contacts, payload],
+      };
     default:
       return state;
   }

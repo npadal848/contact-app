@@ -1,37 +1,29 @@
 import React, { Component } from "react";
 import { connect, useDispatch } from "react-redux";
-import { addContact } from "../../redux/action/contactActions";
-import store from "../../redux/store";
+import { getFormValues, reduxForm } from "redux-form";
 
 class ContactDetails extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      contacts: {
-        name: "",
-        email: "",
-        mobileNumber: "",
-      },
-    };
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    console.log("PROPS: ", props);
-    console.log("STATE: ", state);
-    const data = store.getState();
-    // this.setState({ contacts: data.allContact.contacts });
-    // console.log("componentDidMount: ", this.state.contacts);
-    return { contacts: data.allContact.contacts };
   }
 
   render() {
-    const { name, email, mobileNumber } = this.state.contacts;
+    const contactInfo = this.props.allContact;
+    const renderData = contactInfo.map((contact, key) => {
+      const { name, email, mobileNumber } = contact;
+      return (
+        <div key={key}>
+          {name} <br />
+          {email} <br />
+          {mobileNumber} <br />
+        </div>
+      );
+    });
+
     return (
       <div>
         <h2>Contact Details</h2>
-        {name} <br />
-        {email} <br />
-        {mobileNumber} <br />
+        {renderData}
       </div>
     );
   }
@@ -39,12 +31,11 @@ class ContactDetails extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    allContacts: state.allContact.connects,
+    allContact: state.allContact.contacts,
   };
 };
-const mapDispatchToProps = (dispatch) => {
-  return { dispatch };
-};
+// const mapDispatchToProps = (dispatch) => {
+//   return { dispatch };
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContactDetails);
-// export default ContactDetails;
+export default connect(mapStateToProps)(ContactDetails);
