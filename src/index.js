@@ -9,7 +9,6 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <App />
-      <ContactForm />
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

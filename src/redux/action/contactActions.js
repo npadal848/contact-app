@@ -7,6 +7,13 @@ export const addContact = (contact) => {
   };
 };
 
+export const getContact = (contact) => {
+  return {
+    type: ActionTypes.GET_CONTACT,
+    payload: contact,
+  };
+};
+
 export const editContact = (contact) => {
   return {
     type: ActionTypes.EDIT_CONTACT,

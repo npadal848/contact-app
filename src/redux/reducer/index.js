@@ -1,15 +1,9 @@
 import { combineReducers } from "redux";
-import {
-  addContactReducer,
-  editContactReducer,
-  removeContactReducer,
-} from "./contactReducer";
+import { contactReducer } from "./contactReducer";
 import { reducer as formReducer } from "redux-form";
 
 const reducers = combineReducers({
-  allContact: addContactReducer,
-  editableContact: editContactReducer,
-  removableContact: removeContactReducer,
+  allContact: contactReducer,
   form: formReducer,
 });
 

@@ -1,57 +1,59 @@
 import React, { useState } from "react";
 import { Field, reduxForm } from "redux-form";
-import ContactDetails from "./ContactDetails";
-import { connect } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { addContact } from "../../redux/action/contactActions";
 
-class ContactForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isFormSubmit: false,
-    };
-  }
-  submitFormHandler = (values) => {
-    this.state.isFormSubmit = true;
-    const { dispatch } = this.props;
+const ContactForm = (props) => {
+  const navigate = useNavigate();
+  const { dispatch } = props;
+
+  const submitFormHandler = (values) => {
+    values["id"] = Math.floor(Math.random() * 1000 + 1);
     dispatch(addContact(values));
+    navigate("/");
   };
-  render() {
-    const { handleSubmit } = this.props;
-    return (
-      <div>
-        <form onSubmit={handleSubmit(this.submitFormHandler)}>
+
+  return (
+    <div className="container">
+      <form onSubmit={props.handleSubmit(submitFormHandler)}>
+        <div className="form-group">
           <label>Name</label>
           <Field
+            className="form-control"
             name="name"
+            id="contactName"
             component="input"
             type="text"
             placeholder="Enter Name"
           />
-          <br />
+        </div>
+        <div className="form-group">
           <label>Email</label>
           <Field
+            className="form-control"
             name="email"
             component="input"
             type="email"
             placeholder="Enter Email"
           />
-          <br />
+        </div>
+        <div className="form-group">
           <label>Mobile Number</label>
           <Field
+            className="form-control"
             name="mobileNumber"
             component="input"
             type="number"
             placeholder="Enter Mobile Number"
           />
-          <br />
-          <button type="submit">Add Contact</button>
-          {this.state.isFormSubmit ? <ContactDetails /> : null}
-        </form>
-      </div>
-    );
-  }
-}
+        </div>
+        <button type="submit" className="btn btn-primary btn-lg btn-block">
+          Add Contact
+        </button>
+      </form>
+    </div>
+  );
+};
 
 // const mapStateToProps = (state) => {
 //   return {
