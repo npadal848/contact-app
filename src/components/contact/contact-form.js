@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { Field, reduxForm } from "redux-form";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { addContact } from "../../redux/action/contactActions";
 
 const ContactForm = (props) => {
-  const navigate = useNavigate();
+  const history = useHistory();
   const { dispatch } = props;
 
   const submitFormHandler = (values) => {
     values["id"] = Math.floor(Math.random() * 1000 + 1);
     dispatch(addContact(values));
-    navigate("/");
+    history.push("/");
   };
 
   return (

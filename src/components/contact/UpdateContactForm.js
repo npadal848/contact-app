@@ -2,25 +2,18 @@ import React from "react";
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 import { addContact, getContact } from "../../redux/action/contactActions";
+import { withRouter } from "react-router-dom";
 
-class ContactForm extends React.Component {
+class UpdateContactForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      editableContact: {},
-    };
-  }
 
-  componentDidMount() {
-    const id = this.props.match.params.id;
-    console.log("id: ", id);
-    // const id = 1;
-    const { allContact, dispatch } = this.props;
+    const id = props.match.params.id;
+    const { allContact, dispatch, editableContact } = props;
 
-    const updatedContact = allContact.filter((contact) => contact.id == id);
-    this.setState({ editableContact: updatedContact });
-    dispatch(getContact(updatedContact));
-    if (id && allContact) {
+    if (editableContact) {
+      const updatedContact = allContact.filter((contact) => contact.id == id);
+      dispatch(getContact(updatedContact[0]));
     }
   }
 
@@ -36,10 +29,12 @@ class ContactForm extends React.Component {
     const { dispatch } = this.props;
     dispatch(addContact(updatedContacts));
   };
+
   render() {
     const { handleSubmit, editableContact } = this.props;
-    // console.log("editableContact: ", editableContact);
-    const { name, email, mobileNumber } = this.state.editableContact;
+    console.log("PROPS: ", this.props);
+    const { name, email, mobileNumber } = editableContact;
+    console.log(name);
 
     return (
       <div className="container">
@@ -52,7 +47,7 @@ class ContactForm extends React.Component {
               id="contactName"
               component="input"
               type="text"
-              value={name}
+              value="Nagesh"
             />
           </div>
           <div className="form-group">
@@ -63,6 +58,7 @@ class ContactForm extends React.Component {
               component="input"
               type="email"
               value={email}
+              placeholder={this.props.placeholderValue.name}
             />
           </div>
           <div className="form-group">
@@ -88,6 +84,7 @@ const mapStateToProps = (state) => {
   return {
     allContact: state.allContact.contacts,
     editableContact: state.allContact.editableContact,
+    placeholderValue: state,
   };
 };
 
@@ -95,6 +92,10 @@ const mapStateToProps = (state) => {
 //   return { dispatch };
 // };
 
-export default reduxForm({ form: "updateContactForm" })(
-  connect(mapStateToProps)(ContactForm)
+export default withRouter(
+  reduxForm({
+    form: "updateContactForm",
+    destroyOnUnmount: false,
+    enableReinitialize: true,
+  })(connect(mapStateToProps)(UpdateContactForm))
 );
