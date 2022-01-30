@@ -21,7 +21,7 @@ class UpdateContactForm extends React.Component {
     dispatch(getContact(updatedContact[0]));
   };
 
-  updateFormHandler = (values) => {
+  updateFormHandler = (values, props) => {
     console.log("updateFormHandler");
     const { allContacts } = this.props;
     const updatedContacts = allContacts.filter((contact) => {
@@ -35,6 +35,8 @@ class UpdateContactForm extends React.Component {
     if (updatedContacts.length > 0) {
       dispatch(addContact(updatedContacts));
     }
+
+    this.props.history.push("/");
   };
 
   renderField = ({
@@ -77,7 +79,6 @@ class UpdateContactForm extends React.Component {
               component={this.renderField}
               label="Email"
               type="email"
-              // defaultValue={this.state.contact.email}
             />
           </div>
           <div>
@@ -104,10 +105,6 @@ const mapStateToProps = (state) => {
     initialValues: state.allContact.editableContact,
   };
 };
-
-// const mapDispatchToProps = (dispatch) => {
-//   return { dispatch };
-// };
 
 export default withRouter(
   connect(mapStateToProps)(

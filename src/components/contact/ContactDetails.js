@@ -1,11 +1,19 @@
 import React, { Component } from "react";
-import { connect, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { Link, withRouter } from "react-router-dom";
+import { removeContact } from "../../redux/action/contactActions";
 
 class ContactDetails extends Component {
   constructor(props) {
     super(props);
   }
+
+  onDeleteContactHandler = (id) => {
+    const { allContact: contacts, dispatch } = this.props;
+    console.log("id: ", id);
+    const latestContacts = contacts.filter((contact) => contact.id !== id);
+    dispatch(removeContact(latestContacts));
+  };
 
   render() {
     const contactInfo = this.props.allContact;
@@ -25,14 +33,14 @@ class ContactDetails extends Component {
             >
               Edit
             </Link>
-            <Link
-              to={`/contact/delete/${id}`}
+            <button
+              onClick={() => this.onDeleteContactHandler(id)}
               className="btn btn-danger btn-lg active"
               role="button"
               aria-pressed="true"
             >
               Delete
-            </Link>
+            </button>
           </div>
         </div>
       );
@@ -59,8 +67,5 @@ const mapStateToProps = (state) => {
     allContact: state.allContact.contacts,
   };
 };
-// const mapDispatchToProps = (dispatch) => {
-//   return { dispatch };
-// };
 
-export default connect(mapStateToProps)(ContactDetails);
+export default withRouter(connect(mapStateToProps)(ContactDetails));
