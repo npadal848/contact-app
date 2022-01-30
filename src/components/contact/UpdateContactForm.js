@@ -7,68 +7,86 @@ import { withRouter } from "react-router-dom";
 class UpdateContactForm extends React.Component {
   constructor(props) {
     super(props);
-
-    const id = props.match.params.id;
-    const { allContact, dispatch, editableContact } = props;
-
-    if (editableContact) {
-      const updatedContact = allContact.filter((contact) => contact.id == id);
-      dispatch(getContact(updatedContact[0]));
-    }
   }
 
+  componentDidUpdate(props) {
+    this.getContactById(props);
+  }
+
+  getContactById = (props) => {
+    const id = props.match.params.id;
+    const { allContacts, dispatch } = props;
+
+    const updatedContact = allContacts.filter((contact) => contact.id == id);
+    dispatch(getContact(updatedContact[0]));
+  };
+
   updateFormHandler = (values) => {
-    const { allContacts, editableContact } = this.props;
+    console.log("updateFormHandler");
+    const { allContacts } = this.props;
     const updatedContacts = allContacts.filter((contact) => {
-      if (contact.id === editableContact.id) {
+      if (contact.id === values.id) {
         contact.name = values.name;
         contact.email = values.email;
         contact.mobileNumber = values.mobileNumber;
       }
     });
     const { dispatch } = this.props;
-    dispatch(addContact(updatedContacts));
+    if (updatedContacts.length > 0) {
+      dispatch(addContact(updatedContacts));
+    }
   };
 
-  render() {
-    const { handleSubmit, editableContact } = this.props;
-    console.log("PROPS: ", this.props);
-    const { name, email, mobileNumber } = editableContact;
-    console.log(name);
+  renderField = ({
+    input,
+    className,
+    label,
+    type,
+    meta: { touched, error, warning },
+  }) => (
+    <div className="form-group">
+      <label>{label}</label>
+      <div>
+        <input {...input} className={className} type={type} />
+        {touched &&
+          ((error && <span>{error}</span>) ||
+            (warning && <span>{warning}</span>))}
+      </div>
+    </div>
+  );
 
+  render() {
+    const { handleSubmit } = this.props;
     return (
       <div className="container">
         <form onSubmit={handleSubmit(this.updateFormHandler)}>
-          <div className="form-group">
-            <label>Name</label>
+          <div>
             <Field
               className="form-control"
               name="name"
               id="contactName"
-              component="input"
+              component={this.renderField}
+              label="Name"
               type="text"
-              value="Nagesh"
             />
           </div>
-          <div className="form-group">
-            <label>Email</label>
+          <div>
             <Field
               className="form-control"
               name="email"
-              component="input"
+              component={this.renderField}
+              label="Email"
               type="email"
-              value={email}
-              placeholder={this.props.placeholderValue.name}
+              // defaultValue={this.state.contact.email}
             />
           </div>
-          <div className="form-group">
-            <label>Mobile Number</label>
+          <div>
             <Field
               className="form-control"
               name="mobileNumber"
-              component="input"
+              component={this.renderField}
+              label="Mobile Number"
               type="number"
-              value={mobileNumber}
             />
           </div>
           <button type="submit" className="btn btn-primary btn-lg btn-block">
@@ -82,9 +100,8 @@ class UpdateContactForm extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    allContact: state.allContact.contacts,
-    editableContact: state.allContact.editableContact,
-    placeholderValue: state,
+    allContacts: state.allContact.contacts,
+    initialValues: state.allContact.editableContact,
   };
 };
 
@@ -93,9 +110,10 @@ const mapStateToProps = (state) => {
 // };
 
 export default withRouter(
-  reduxForm({
-    form: "updateContactForm",
-    destroyOnUnmount: false,
-    enableReinitialize: true,
-  })(connect(mapStateToProps)(UpdateContactForm))
+  connect(mapStateToProps)(
+    reduxForm({
+      form: "updateContactForm",
+      enableReinitialize: true,
+    })(UpdateContactForm)
+  )
 );
