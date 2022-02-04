@@ -14,6 +14,13 @@ export const getContact = (contact) => {
   };
 };
 
+export const updateContact = (contact) => {
+  return {
+    type: ActionTypes.GET_CONTACT,
+    payload: contact,
+  };
+};
+
 export const removeContact = (contact) => {
   return {
     type: ActionTypes.REMOVE_CONTACT,

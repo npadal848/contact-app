@@ -1,7 +1,7 @@
 import React from "react";
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
-import { addContact, getContact } from "../../redux/action/contactActions";
+import { updateContact, getContact } from "../../redux/action/contactActions";
 import { withRouter } from "react-router-dom";
 
 class UpdateContactForm extends React.Component {
@@ -33,7 +33,7 @@ class UpdateContactForm extends React.Component {
     });
     const { dispatch } = this.props;
     if (updatedContacts.length > 0) {
-      dispatch(addContact(updatedContacts));
+      dispatch(updateContact(updatedContacts));
     }
 
     this.props.history.push("/");

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { removeContact } from "../../redux/action/contactActions";
+import RenderContact from "./RenderContact";
 
 class ContactDetails extends Component {
   constructor(props) {
@@ -10,7 +11,6 @@ class ContactDetails extends Component {
 
   onDeleteContactHandler = (id) => {
     const { allContact: contacts, dispatch } = this.props;
-    console.log("id: ", id);
     const latestContacts = contacts.filter((contact) => contact.id !== id);
     dispatch(removeContact(latestContacts));
   };
@@ -18,45 +18,30 @@ class ContactDetails extends Component {
   render() {
     const contactInfo = this.props.allContact;
     const renderData = contactInfo.map((contact, key) => {
-      const { id, name, email, mobileNumber } = contact;
       return (
-        <div className="row" key={key}>
-          <div className="col-sm">{name}</div>
-          <div className="col-sm">{email} </div>
-          <div className="col-sm">{mobileNumber} </div>
-          <div className="col-sm">
-            <Link
-              to={`/contact/edit/${id}`}
-              className="btn btn-primary btn-lg active"
-              role="button"
-              aria-pressed="true"
-            >
-              Edit
-            </Link>
-            <button
-              onClick={() => this.onDeleteContactHandler(id)}
-              className="btn btn-danger btn-lg active"
-              role="button"
-              aria-pressed="true"
-            >
-              Delete
-            </button>
-          </div>
-        </div>
+        <RenderContact
+          contact={contact}
+          key={key}
+          onDeleteContactHandler={this.onDeleteContactHandler}
+        />
       );
     });
 
     return (
       <div>
         <div className="container">
-          <div className="row">
-            <div className="col-sm">Name</div>
-            <div className="col-sm">Email</div>
-            <div className="col-sm">Phone</div>
-            <div className="col-sm">Action</div>
-          </div>
+          <table className="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>{renderData}</tbody>
+          </table>
         </div>
-        {renderData}
       </div>
     );
   }

@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import ContactForm from "./components/contact/contact-form";
 import UpdateContactForm from "./components/contact/UpdateContactForm";
 import ContactDetails from "./components/contact/ContactDetails";
+import "./index.css";
 
 const App = () => {
   return (

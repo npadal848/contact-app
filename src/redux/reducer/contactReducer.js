@@ -34,6 +34,11 @@ export const contactReducer = (state = initialState, { type, payload }) => {
       };
     case ActionTypes.GET_CONTACT:
       return { ...state, editableContact: payload };
+    case ActionTypes.UPDATE_CONTACT:
+      return {
+        ...state,
+        contacts: [...state.contacts, payload],
+      };
     case ActionTypes.REMOVE_CONTACT:
       return { ...state, contacts: payload };
     default:

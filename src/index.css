@@ -1,0 +1,12 @@
+.btn-primary {
+  margin-right: 10px;
+}
+
+nav.navbar.navbar-expand-lg.navbar-light.bg-light {
+  justify-content: space-between;
+}
+
+a.link_AppName {
+  text-decoration: none;
+  color: initial;
+}
