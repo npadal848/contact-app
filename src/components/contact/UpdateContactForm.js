@@ -22,7 +22,6 @@ class UpdateContactForm extends React.Component {
   };
 
   updateFormHandler = (values, props) => {
-    console.log("updateFormHandler");
     const { allContacts } = this.props;
     const updatedContacts = allContacts.filter((contact) => {
       if (contact.id === values.id) {

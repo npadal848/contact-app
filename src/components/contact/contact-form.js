@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { Field, reduxForm } from "redux-form";
+import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { addContact } from "../../redux/action/contactActions";
 
@@ -8,10 +9,37 @@ const ContactForm = (props) => {
   const { dispatch } = props;
 
   const submitFormHandler = (values) => {
-    values["id"] = Math.floor(Math.random() * 1000 + 1);
+    const { allContact } = props;
+    values["id"] = allContact.length + 1;
     dispatch(addContact(values));
     history.push("/");
   };
+
+  const required = (value) => {
+    return value || typeof value === "number" ? undefined : "Required";
+  };
+
+  const renderField = ({
+    input,
+    label,
+    type,
+    meta: { touched, error, warning },
+  }) => (
+    <div>
+      <label>{label}</label>
+      <div>
+        <input
+          {...input}
+          className={input.className}
+          placeholder={label}
+          type={type}
+        />
+        {/* {touched &&
+          ((error && <span>{error}</span>) ||
+            (warning && <span>{warning}</span>))} */}
+      </div>
+    </div>
+  );
 
   return (
     <div className="container">
@@ -22,9 +50,10 @@ const ContactForm = (props) => {
             className="form-control"
             name="name"
             id="contactName"
-            component="input"
+            component={renderField}
             type="text"
             placeholder="Enter Name"
+            validate={required}
           />
         </div>
         <div className="form-group">
@@ -32,9 +61,10 @@ const ContactForm = (props) => {
           <Field
             className="form-control"
             name="email"
-            component="input"
+            component={renderField}
             type="email"
             placeholder="Enter Email"
+            validate={required}
           />
         </div>
         <div className="form-group">
@@ -42,9 +72,10 @@ const ContactForm = (props) => {
           <Field
             className="form-control"
             name="mobileNumber"
-            component="input"
+            component={renderField}
             type="number"
             placeholder="Enter Mobile Number"
+            validate={required}
           />
         </div>
         <button type="submit" className="btn btn-primary btn-lg btn-block">
@@ -55,17 +86,16 @@ const ContactForm = (props) => {
   );
 };
 
-// const mapStateToProps = (state) => {
-//   return {
-//     allContacts: state.allContact.connects,
-//   };
-// };
+const mapStateToProps = (state) => {
+  return {
+    allContact: state.allContact.contacts,
+  };
+};
 
 // const mapDispatchToProps = (dispatch) => {
 //   return { dispatch };
 // };
 
 export default reduxForm({ form: "contactForm" })(
-  // connect(mapStateToProps, mapDispatchToProps)
-  ContactForm
+  connect(mapStateToProps)(ContactForm)
 );

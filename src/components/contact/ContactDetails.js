@@ -48,9 +48,17 @@ class ContactDetails extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log("mapStateToProps");
   return {
     allContact: state.allContact.contacts,
   };
 };
 
-export default withRouter(connect(mapStateToProps)(ContactDetails));
+const mapDispatchToProps = (dispatch) => {
+  console.log("mapDispatchToProps");
+  return { dispatch };
+};
+
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(ContactDetails)
+);
