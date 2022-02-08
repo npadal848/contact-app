@@ -1,90 +1,71 @@
-import React from "react";
+import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
-import { useHistory } from "react-router-dom";
+import {
+  renderField as Input,
+  validate,
+} from "../common/validation/form-validation";
 import { addContact } from "../../redux/action/contactActions";
 
-const ContactForm = (props) => {
-  const history = useHistory();
-  const { dispatch } = props;
+class ContactForm extends Component {
+  constructor(props) {
+    super(props);
+  }
 
-  const submitFormHandler = (values) => {
-    const { allContact } = props;
+  submitFormHandler = (values) => {
+    const { dispatch, history } = this.props;
+    const { allContact } = this.props;
     values["id"] = allContact.length + 1;
     dispatch(addContact(values));
     history.push("/");
   };
 
-  const required = (value) => {
-    return value || typeof value === "number" ? undefined : "Required";
-  };
-
-  const renderField = ({
-    input,
-    label,
-    type,
-    meta: { touched, error, warning },
-  }) => (
-    <div>
-      <label>{label}</label>
-      <div>
-        <input
-          {...input}
-          className={input.className}
-          placeholder={label}
-          type={type}
-        />
-        {/* {touched &&
-          ((error && <span>{error}</span>) ||
-            (warning && <span>{warning}</span>))} */}
+  render() {
+    return (
+      <div className="container">
+        <form onSubmit={this.props.handleSubmit(this.submitFormHandler)}>
+          <div className="form-group">
+            <Field
+              className="form-control"
+              name="name"
+              id="contactName"
+              component={Input}
+              type="text"
+              placeholder="Enter Name"
+              // validate={required} // this is for Field level validation
+              label="Name"
+            />
+          </div>
+          <div className="form-group">
+            <Field
+              className="form-control"
+              name="email"
+              component={Input}
+              type="email"
+              placeholder="Enter Email"
+              // validate={required}
+              label="Email"
+            />
+          </div>
+          <div className="form-group">
+            <Field
+              className="form-control"
+              name="mobileNumber"
+              component={Input}
+              type="text"
+              placeholder="Enter Mobile Number"
+              label="Mobile Number"
+              // validate={required}
+            />
+          </div>
+          <button type="submit" className="btn btn-primary btn-lg btn-block">
+            Add Contact
+          </button>
+        </form>
       </div>
-    </div>
-  );
-
-  return (
-    <div className="container">
-      <form onSubmit={props.handleSubmit(submitFormHandler)}>
-        <div className="form-group">
-          <label>Name</label>
-          <Field
-            className="form-control"
-            name="name"
-            id="contactName"
-            component={renderField}
-            type="text"
-            placeholder="Enter Name"
-            validate={required}
-          />
-        </div>
-        <div className="form-group">
-          <label>Email</label>
-          <Field
-            className="form-control"
-            name="email"
-            component={renderField}
-            type="email"
-            placeholder="Enter Email"
-            validate={required}
-          />
-        </div>
-        <div className="form-group">
-          <label>Mobile Number</label>
-          <Field
-            className="form-control"
-            name="mobileNumber"
-            component={renderField}
-            type="number"
-            placeholder="Enter Mobile Number"
-            validate={required}
-          />
-        </div>
-        <button type="submit" className="btn btn-primary btn-lg btn-block">
-          Add Contact
-        </button>
-      </form>
-    </div>
-  );
-};
+    );
+  }
+}
 
 const mapStateToProps = (state) => {
   return {
@@ -92,10 +73,11 @@ const mapStateToProps = (state) => {
   };
 };
 
-// const mapDispatchToProps = (dispatch) => {
-//   return { dispatch };
-// };
+const mapDispatchToProps = (dispatch) => {
+  return { dispatch };
+};
 
-export default reduxForm({ form: "contactForm" })(
-  connect(mapStateToProps)(ContactForm)
-);
+export default reduxForm({
+  form: "contactForm",
+  validate, // passing validate function for managing validation centrally
+})(connect(mapStateToProps, mapDispatchToProps)(ContactForm));
