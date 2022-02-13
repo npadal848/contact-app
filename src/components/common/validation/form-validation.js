@@ -30,8 +30,6 @@ export const validate = (values) => {
   }
   if (!values.mobileNumber) {
     errors.mobileNumber = "!Required";
-  } else if (!"/^[0-9]+$/".match(values.mobileNumber)) {
-    errors.mobileNumber = "Must be a number";
   } else if (Number(values.mobileNumber).length === 10) {
     errors.mobileNumber = "Sorry, you must enter 10 digits mobile number";
   }
@@ -40,4 +38,24 @@ export const validate = (values) => {
 
 export const required = (value) => {
   return value || typeof value === "number" ? undefined : "!Required";
+};
+
+export const upper = (value) => value && value.toUpperCase();
+export const lower = (value) => value && value.toLowerCase();
+export const onlyChar = (value) => value && value.replace(/^[a-zA-Z]+$/, "");
+export const mobileNumber = (value) => {
+  if (!value) {
+    return value;
+  }
+  const mobileNo = value.replace(/[^\d]/g, "");
+  if (mobileNo.length <= 3) {
+    return `${mobileNo}`;
+  }
+  if (mobileNo.length <= 7) {
+    return `${mobileNo.slice(0, 3)}-${mobileNo.slice(3)}`;
+  }
+  return `${mobileNo.slice(0, 3)}-${mobileNo.slice(3, 6)}-${mobileNo.slice(
+    6,
+    10
+  )}`;
 };

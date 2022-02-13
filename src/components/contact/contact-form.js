@@ -4,6 +4,10 @@ import { connect } from "react-redux";
 import {
   renderField as Input,
   validate,
+  upper,
+  lower,
+  onlyChar,
+  mobileNumber,
 } from "../common/validation/form-validation";
 import { addContact } from "../../redux/action/contactActions";
 
@@ -34,6 +38,7 @@ class ContactForm extends Component {
               placeholder="Enter Name"
               // validate={required} // this is for Field level validation
               label="Name"
+              normalize={upper}
             />
           </div>
           <div className="form-group">
@@ -45,6 +50,7 @@ class ContactForm extends Component {
               placeholder="Enter Email"
               // validate={required}
               label="Email"
+              normalize={lower}
             />
           </div>
           <div className="form-group">
@@ -56,6 +62,7 @@ class ContactForm extends Component {
               placeholder="Enter Mobile Number"
               label="Mobile Number"
               // validate={required}
+              normalize={mobileNumber}
             />
           </div>
           <button type="submit" className="btn btn-primary btn-lg btn-block">
