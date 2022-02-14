@@ -6,7 +6,6 @@ import {
   validate,
   upper,
   lower,
-  onlyChar,
   mobileNumber,
 } from "../common/validation/form-validation";
 import { addContact } from "../../redux/action/contactActions";

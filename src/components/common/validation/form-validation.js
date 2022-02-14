@@ -40,9 +40,9 @@ export const required = (value) => {
   return value || typeof value === "number" ? undefined : "!Required";
 };
 
-export const upper = (value) => value && value.toUpperCase();
+export const upper = (value) =>
+  value && value.toUpperCase().replace(/[^A-Za-z \s]/gi, "");
 export const lower = (value) => value && value.toLowerCase();
-export const onlyChar = (value) => value && value.replace(/^[a-zA-Z]+$/, "");
 export const mobileNumber = (value) => {
   if (!value) {
     return value;
