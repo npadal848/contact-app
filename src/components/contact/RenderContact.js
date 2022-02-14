@@ -1,13 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Avatar from 'react-avatar';
+import Avatar from "react-avatar";
 const renderContact = (props) => {
   const { id, name, email, mobileNumber } = props.contact;
 
   return (
     <tr key={id}>
       <td>
-      <Avatar name={name} color="#F00" size={150} round="100%" >Rajajajajaja</Avatar>
+        <Avatar name={name} color="#F00" size={40} round="100%" />
+        {name}
       </td>
       <td>{email} </td>
       <td>{mobileNumber} </td>

@@ -4,20 +4,25 @@ const initialState = {
   contacts: [
     {
       id: 1,
-      name: "Simbba",
+      name: "S Simbba",
       email: "simbba@gmail.com",
       mobileNumber: 1231343445,
     },
     {
       id: 2,
-      name: "Nagesh",
+      name: "Nagesh Padal",
       email: "nagesh@gmail.com",
       mobileNumber: 6545435465,
     },
-    { id: 3, name: "Sivu", email: "sivu@gmail.com", mobileNumber: 6723465466 },
+    {
+      id: 3,
+      name: "Sivu Jack",
+      email: "sivu@gmail.com",
+      mobileNumber: 6723465466,
+    },
     {
       id: 4,
-      name: "Pooja",
+      name: "Pooja Seth",
       email: "pooja@gmail.com",
       mobileNumber: 9776556577,
     },
