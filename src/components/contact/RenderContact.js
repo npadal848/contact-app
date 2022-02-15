@@ -7,8 +7,8 @@ const renderContact = (props) => {
   return (
     <tr key={id}>
       <td>
-        <Avatar name={name} color="#F00" size={40} round="100%" />
-        {name}
+        <div className="avta"><Avatar name={name} color="#F00"  size={40} round="100%" />
+        </div> {name}
       </td>
       <td>{email} </td>
       <td>{mobileNumber} </td>
