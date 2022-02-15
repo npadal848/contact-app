@@ -3,6 +3,13 @@ import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 import { updateContact, getContact } from "../../redux/action/contactActions";
 import { withRouter } from "react-router-dom";
+import {
+  renderField as Input,
+  validate,
+  upper,
+  lower,
+  mobileNumber,
+} from "../common/validation/form-validation";
 
 class UpdateContactForm extends React.Component {
   constructor(props) {
@@ -38,24 +45,6 @@ class UpdateContactForm extends React.Component {
     this.props.history.push("/");
   };
 
-  renderField = ({
-    input,
-    className,
-    label,
-    type,
-    meta: { touched, error, warning },
-  }) => (
-    <div className="form-group">
-      <label>{label}</label>
-      <div>
-        <input {...input} className={className} type={type} />
-        {touched &&
-          ((error && <span>{error}</span>) ||
-            (warning && <span>{warning}</span>))}
-      </div>
-    </div>
-  );
-
   render() {
     const { handleSubmit } = this.props;
     return (
@@ -66,27 +55,30 @@ class UpdateContactForm extends React.Component {
               className="form-control"
               name="name"
               id="contactName"
-              component={this.renderField}
+              component={Input}
               label="Name"
               type="text"
+              normalize={upper}
             />
           </div>
           <div>
             <Field
               className="form-control"
               name="email"
-              component={this.renderField}
+              component={Input}
               label="Email"
               type="email"
+              normalize={lower}
             />
           </div>
           <div>
             <Field
               className="form-control"
               name="mobileNumber"
-              component={this.renderField}
+              component={Input}
               label="Mobile Number"
-              type="number"
+              type="text"
+              normalize={mobileNumber}
             />
           </div>
           <button type="submit" className="btn btn-primary btn-lg btn-block">
@@ -110,6 +102,7 @@ export default withRouter(
     reduxForm({
       form: "updateContactForm",
       enableReinitialize: true,
+      validate,
     })(UpdateContactForm)
   )
 );
