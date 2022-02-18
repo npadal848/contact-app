@@ -8,10 +8,10 @@ const renderContact = (props) => {
     <tr key={id}>
       <td>
         <div className="avta"><Avatar name={name} color="#F00"  size={40} round="100%" />
-        </div> {name}
+        </div> {name.toUpperCase()}
       </td>
       <td>{email} </td>
-      <td>{mobileNumber} </td>
+      <td>{`${mobileNumber.slice(0, 3)}-${mobileNumber.slice(3, 6)}-${mobileNumber.slice( 6,10)}`} </td>
       <td>
         <div className="row">
           <Link

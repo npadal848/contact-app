@@ -16,7 +16,7 @@ export const getContact = (contact) => {
 
 export const updateContact = (contact) => {
   return {
-    type: ActionTypes.GET_CONTACT,
+    type: ActionTypes.UPDATE_CONTACT,
     payload: contact,
   };
 };
