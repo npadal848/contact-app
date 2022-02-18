@@ -28,21 +28,10 @@ class UpdateContactForm extends React.Component {
     dispatch(getContact(updatedContact[0]));
   };
 
-  updateFormHandler = (values, props) => {
-    const { allContacts } = this.props;
-    const updatedContacts = allContacts.filter((contact) => {
-      if (contact.id === values.id) {
-        contact.name = values.name;
-        contact.email = values.email;
-        contact.mobileNumber = values.mobileNumber;
-      }
-    });
-    const { dispatch } = this.props;
-    if (updatedContacts.length > 0) {
-      dispatch(updateContact(updatedContacts));
-    }
-
-    this.props.history.push("/");
+  updateFormHandler = (values) => {
+       const {dispatch} = this.props
+      dispatch(updateContact(values));
+      this.props.history.push("/");
   };
 
   render() {

@@ -7,11 +7,11 @@ const renderContact = (props) => {
   return (
     <tr key={id}>
       <td>
-        <Avatar name={name} color="#F00" size={40} round="100%" />
-        {name}
+        <div className="avta"><Avatar name={name} color="#F00"  size={40} round="100%" />
+        </div> {name.toUpperCase()}
       </td>
       <td>{email} </td>
-      <td>{mobileNumber} </td>
+      <td>{`${mobileNumber.slice(0, 3)}-${mobileNumber.slice(3, 6)}-${mobileNumber.slice( 6,10)}`} </td>
       <td>
         <div className="row">
           <Link
